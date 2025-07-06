@@ -20,6 +20,7 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+    implementation("org.springframework.ai:spring-ai-openai-spring-boot-starter:1.0.0-M6")
     implementation("org.springframework.ai:spring-ai-starter-vector-store-redis:1.0.0")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("com.github.ben-manes.caffeine:caffeine")
