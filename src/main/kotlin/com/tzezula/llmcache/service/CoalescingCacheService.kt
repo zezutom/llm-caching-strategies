@@ -5,6 +5,7 @@ import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 import java.util.concurrent.ConcurrentHashMap
 
@@ -15,7 +16,7 @@ import java.util.concurrent.ConcurrentHashMap
  */
 @Service
 class CoalescingCacheService(
-    private val llmClient: LlmClient,
+    @Qualifier("ollamaClient") private val llmClient: LlmClient
 ) : LlmService {
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val inFlight = ConcurrentHashMap<String, CompletableDeferred<String?>>()

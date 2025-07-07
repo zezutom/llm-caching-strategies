@@ -2,6 +2,7 @@ package com.tzezula.llmcache.service
 
 import com.github.benmanes.caffeine.cache.Caffeine
 import com.tzezula.llmcache.client.LlmClient
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.stereotype.Service
 import java.util.concurrent.TimeUnit
 
@@ -13,7 +14,7 @@ import java.util.concurrent.TimeUnit
  */
 @Service
 class NaiveCacheService(
-    private val llmClient: LlmClient
+    @Qualifier("ollamaClient") private val llmClient: LlmClient
 ) : LlmService {
     private val cache = Caffeine.newBuilder()
         .expireAfterWrite(10, TimeUnit.MINUTES)

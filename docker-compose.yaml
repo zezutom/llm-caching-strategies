@@ -1,0 +1,34 @@
+services:
+  redis:
+    image: redis/redis-stack:latest
+    ports:
+      - "6379:6379"
+    networks:
+      - backend
+
+  llm:
+    image: ollama/ollama
+    mem_limit: 4g  # Adjust memory limit as needed
+    ports:
+      - '11434:11434'  # Ollama serves API on 11434
+    volumes:
+      - ollama:/root/.ollama  # Optional: persist downloaded models
+    networks:
+      - backend
+    entrypoint:
+      - "/bin/sh"
+      - "-c"
+      - |
+        ollama serve >/dev/null 2>&1 &
+        server_pid=$!
+        # Give the server time to start up (adjust 5 seconds if your machine is very slow)
+        sleep 5
+        # Now pull a tinier version of llama3 against the live server
+        ollama pull llama3.2:1b
+        # Wait on the server process; this keeps the container alive
+        wait $server_pid
+volumes:
+  ollama:
+
+networks:
+  backend:
