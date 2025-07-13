@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test
 import org.springframework.ai.document.Document
 import org.springframework.ai.vectorstore.SearchRequest
 import org.springframework.ai.vectorstore.redis.RedisVectorStore
-import org.springframework.boot.autoconfigure.condition.ConditionOutcome.match
 
 class SemanticCacheServiceTest {
     private lateinit var vectorStore: RedisVectorStore
@@ -25,7 +24,7 @@ class SemanticCacheServiceTest {
     }
 
     @Test
-    fun `cache hit for similar requests returns summary from vector store and skips LLM`() = runTest {
+    fun `semantic hit skips LLM`() = runTest {
         val prompt = "This is a test prompt"
         val cachedSummary = "Cached summary for: $prompt"
         val doc = Document.builder()

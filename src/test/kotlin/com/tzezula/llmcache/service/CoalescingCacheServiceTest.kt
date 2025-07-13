@@ -22,7 +22,7 @@ class CoalescingCacheServiceTest {
     }
 
     @Test
-    fun `only one LLM call is made for concurrent duplicate requests`() = runTest {
+    fun `coalescing only invokes once`() = runTest {
         val prompt = "This is a test prompt"
         coEvery { llmClient.summarize(prompt) } coAnswers {
             // Simulate LLM latency
@@ -30,9 +30,9 @@ class CoalescingCacheServiceTest {
             "Summary for: $prompt"
         }
 
-        // Fire off 3 concurrent calls to summarize
+        // Fire off 5 concurrent calls to summarize
         coroutineScope {
-            repeat(3) {
+            repeat(5) {
                 launch {
                     cacheService.summarize(prompt)
                 }
